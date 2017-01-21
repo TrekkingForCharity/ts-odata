@@ -1,6 +1,5 @@
 {
   "name": "ts-odata",
-  "version": "0.0.0",
   "description": "A typescript library to help generate odata queries",
   "license": "MIT",
   "repository": {
