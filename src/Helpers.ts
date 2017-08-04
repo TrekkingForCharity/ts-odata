@@ -8,8 +8,8 @@ export class Helpers {
             return value;
         }
 
-        if (value.length > 4 && value.substring(0, 4) === 'v4guid') {
-            return value.slice(-6);
+        if (value.length > 4 && value.substring(0, 6) === 'v4guid') {
+            return value.slice(6, value.length);
         }
 
         if (typeof value === 'string') {
