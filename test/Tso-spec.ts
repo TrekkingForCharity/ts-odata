@@ -526,6 +526,12 @@ describe('tsdata', () => {
         expect(j.toString()).to.equal("http://foo.bar?$filter=CustomerGuid%20eq%20guid'1225c695-cfb8-4ebb-aaaa-80da344efa6a'");
       });
 
+      it('cast to v4guid', function () {
+        var j = new Tso('http://foo.bar');
+        j.filter(new FilterClause('CustomerGuid').eq(Tso.v4guid('1225c695-cfb8-4ebb-aaaa-80da344efa6a')));
+        expect(j.toString()).to.equal("http://foo.bar?$filter=CustomerGuid%20eq%201225c695-cfb8-4ebb-aaaa-80da344efa6a");
+      });
+
       it('cast to single', function () {
         var j = new Tso('http://foo.bar');
         j.filter(new FilterClause('Price').eq(Tso.single(392.52)));

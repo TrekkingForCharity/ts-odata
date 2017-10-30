@@ -29,9 +29,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "postinstall": "tsc"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/chai": "^3.0.0",
     "@types/mocha": "^2.0.0",
@@ -44,7 +42,7 @@
     "semantic-release": "^6.3.2",
     "ts-node": "^1.0.0",
     "tslint": "^4.0.0",
-    "typescript": "^2.0.0"
+    "typescript": "2.0.0"
   },
   "engines": {
     "node": ">=4.0.0"

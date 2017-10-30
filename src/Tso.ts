@@ -42,6 +42,10 @@ export class Tso {
         return 'guid\'' + guid + '\'';
     }
 
+    static v4guid(guid: string): string {
+      return 'v4guid' + guid;
+    }
+
     static decimal(decimal: number): string {
         return decimal + 'm';
     }

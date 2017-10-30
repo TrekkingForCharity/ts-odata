@@ -8,6 +8,10 @@ export class Helpers {
             return value;
         }
 
+        if (value.length > 4 && value.substring(0, 6) === 'v4guid') {
+            return value.slice(6, value.length);
+        }
+
         if (typeof value === 'string') {
             let numberSuffixes = ['m', 'f', 'd'];
             for (let i = 0; i < numberSuffixes.length; i++) {
