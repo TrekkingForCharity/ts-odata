@@ -956,6 +956,14 @@ describe('tsdata', () => {
         );
       });
 
+      it('Contains', function() {
+        const j = new Tso('http://foo.bar');
+        j.filter(new FilterClause('PropertyName').contains('test').eq(true));
+        expect(j.toString()).to.equal(
+          `http://foo.bar?$filter=contains(PropertyName,'test')%20eq%20true`
+        );
+      });
+
       it('Length', function() {
         const j = new Tso('http://foo.bar');
         j.filter(new FilterClause('PropertyName').length().eq(10));

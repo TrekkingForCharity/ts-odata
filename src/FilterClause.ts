@@ -175,6 +175,15 @@ export class FilterClause {
         return this;
     }
 
+    contains(value: string): FilterClause {
+        this.propertyIncluded = true;
+        this.funcReturnType = Boolean();
+        let that = this;
+        this.components.push('contains(' + that.property + ',\'' + value + '\')');
+
+        return this;
+    }
+
     length(): FilterClause {
         this.propertyIncluded = true;
         this.funcReturnType = Number();
