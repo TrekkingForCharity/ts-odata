@@ -1,6 +1,6 @@
 export class SelectSettings {
-    select: string[];
-    defaultSelect: string[];
+    select: string[] | null;
+    defaultSelect: string[] | null;
 
     constructor() {
         this.select = null;
@@ -8,9 +8,9 @@ export class SelectSettings {
     }
 
 
-    toString(): string {
+    toString(): string | null {
         let selectArray = (this.select || this.defaultSelect);
-        return '$select=' + selectArray.join(',');
+        return selectArray ? '$select=' + selectArray.join(',') : null;
     }
 
     reset(): void {

@@ -1,6 +1,6 @@
 export class InlineCountSettings {
-    inlineCount: string;
-    defaultInlineCount: string;
+    inlineCount: string | null;
+    defaultInlineCount: string | null;
 
     constructor() {
         this.inlineCount = null;

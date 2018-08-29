@@ -2,18 +2,16 @@ import {Helpers} from './Helpers';
 import {Concat} from './Concat';
 export class FilterClause {
 
-    property: string;
     components: string[];
-    isClauseEmpty: Boolean;
-    propertyIncluded: Boolean;
-    usingNot: Boolean;
+    isClauseEmpty = true;
+    propertyIncluded = false;
+    usingNot = false;
     value: any;
     funcReturnType: any;
-    transformFunc: Function;
+    transformFunc: Function | undefined;
 
 
-    constructor(property: string = null) {
-        this.property = property;
+    constructor(public property: string | null = null) {
         this.components = [];
     }
 

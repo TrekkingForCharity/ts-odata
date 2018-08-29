@@ -1,6 +1,6 @@
 export class SkipSettings {
-    skip: number;
-    defaultSkip: number;
+    skip: number | null;
+    defaultSkip: number | null;
 
     constructor() {
         this.skip = null;

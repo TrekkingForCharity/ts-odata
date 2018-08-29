@@ -1,19 +1,22 @@
 {
     "compilerOptions": {
-        "declaration": true,
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "outDir": "./lib",
-        "preserveConstEnums": true,
-        "removeComments": true,
-        "skipLibCheck": true
+      "moduleResolution": "node",
+      "target": "es5",
+      "module":"commonjs",
+      "lib": ["es2015", "es2016", "es2017", "dom"],
+      "strict": true,
+      "sourceMap": true,
+      "declaration": true,
+      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "declarationDir": "dist/types",
+      "outDir": "dist/lib",
+      "typeRoots": [
+        "node_modules/@types"
+      ]
     },
     "include": [
-        "src/**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "**/*-spec.ts"
+      "src"
     ]
-}
+  }

@@ -28,7 +28,7 @@ export class Tso {
     inlineCount: IInlineCountOptions;
     inlineCountDefault: IInlineCountOptions;
 
-    currentHashRoute: string;
+    currentHashRoute: string | null = null;
 
     static literal(stringLiteral: string): string {
         return '\'' + stringLiteral.toString() + '\'';
@@ -58,8 +58,15 @@ export class Tso {
         return single + 'f';
     }
 
-
-
+    /**
+    * To create a TsoData query object, you instantiate it by passing your base uri into the constructor.
+    *
+    * @example
+    * var query = new Tso('http://test.com');
+    *
+    * @param {string} baseUri
+    * @memberof Tso
+    */
     constructor(baseUri: string) {
         this.baseUri = baseUri;
         this.OrderBySettings = new OrderBySettings();
@@ -142,13 +149,34 @@ export class Tso {
         this.currentHashRoute = hashRoute;
     }
 
-    // order by
+    /**
+     * Setting .orderBy will override the default. Calling .resetOrderBy() will restore the default.
+     *
+     * @example
+     * query.setOrderByDefault('p1', 'desc').orderBy('p2').asc();
+     * Will be:
+     * $orderby=p2 asc
+     *
+     * @param {string} property
+     * @param {string} [order]
+     * @returns {Tso}
+     * @memberof Tso
+     */
     setOrderByDefault(property: string, order?: string): Tso {
         this.OrderBySettings.defaultProperty = property;
         this.OrderBySettings.defaultOrder = order === undefined ? 'desc' : order;
         return this;
     }
 
+    /**
+     * Toggles the order by value on a given property between desc and asc.
+     * If the orderby property has not been set yet, it will default to desc.
+     *
+     * @param {string} property
+     * @param {Function} [callback]
+     * @returns {Tso}
+     * @memberof Tso
+     */
     toggleOrderBy(property: string, callback?: Function): Tso {
         let useDesc = (this.OrderBySettings.property === null || this.OrderBySettings.order === 'asc');
         (<any>this.orderBy(property))[useDesc ? 'desc' : 'asc']();
@@ -160,93 +188,284 @@ export class Tso {
         return this;
     }
 
+    /**
+     * Order by is a singleton property, so you can call .orderBy as many times as you like and the result will always be the last one.
+     *
+     * @example
+     * $orderby=PropertyName
+     *
+     * @param {string} property
+     * @returns {Tso}
+     * @memberof Tso
+     */
     orderBy(property: string): Tso {
         this.OrderBySettings.property = property;
         return this;
     }
 
+    /**
+     * Set descending order.
+     *
+     * Which ever order is called last will be the one that wins, so writing
+     * query.orderBy('PropertyName').asc().desc()
+     *
+     * will result in
+     *
+     * $orderby=PropertyName desc
+     *
+     * @example
+     * $orderby=PropertyName desc
+     *
+     * @returns {Tso}
+     * @memberof Tso
+     */
     desc(): Tso {
         this.OrderBySettings.order = 'desc';
         return this;
     }
 
+    /**
+     * Set ascending order.
+     *
+     * Which ever order is called last will be the one that wins, so writing
+     * query.orderBy('PropertyName').desc().asc()
+     *
+     * will result in
+     *
+     * $orderby=PropertyName asc
+     *
+     * @example
+     * $orderby=PropertyName asc
+     *
+     * @returns {Tso}
+     * @memberof Tso
+     */
     asc(): Tso {
         this.OrderBySettings.order = 'asc';
         return this;
     }
 
+    /**
+     * OrderBy settings are removed
+     * (Reverts back what was set in setOrderByDefault)
+     *
+     * @returns {Tso}
+     * @memberof Tso
+     */
     resetOrderBy(): Tso {
         this.OrderBySettings.reset();
         return this;
     }
 
-    // top
+    /**
+     * Setting .top will override the default. Calling .resetTop() will restore the default.
+     *
+     * @example
+     * query.setTopDefault(5).top(10);
+     *
+     * will result in
+     *
+     * $top=10
+     *
+     * Then, resetting will restore the default:
+     * query.resetTop()
+     *
+     * will result in
+     *
+     * $top=5
+     * @param {number} top
+     * @returns {Tso}
+     * @memberof Tso
+     */
     setTopDefault(top: number): Tso {
         this.TopSettings.defaultTop = top;
         return this;
     }
 
+    /**
+     * Top is a singleton property, so you can call .top as many times as you like and the result will always be the last one.
+     *
+     * @example
+     * $top=10
+     *
+     * @param {number} top
+     * @returns {Tso}
+     * @memberof Tso
+     */
     top(top: number): Tso {
         this.TopSettings.top = top;
         return this;
     }
 
+    /**
+     * Top settings are removed.
+     * (Reverts back what was set in setTopDefault)
+     *
+     * @returns {Tso}
+     * @memberof Tso
+     */
     resetTop(): Tso {
         this.TopSettings.reset();
         return this;
     }
 
-    // skip
+    /**
+     * Setting .skip will override the default. Calling .resetSkipTop() will restore the default.
+     *
+     * @example
+     * query.setSkipDefault(5).skip(10);
+     *
+     * will result in
+     *
+     * $skip=10
+     *
+     * Then, resetting will restore the default:
+     * query.resetSkip()
+     *
+     * will result in
+     *
+     * $skip=5
+     * @param {number} skip
+     * @returns {Tso}
+     * @memberof Tso
+     */
     setSkipDefault(skip: number): Tso {
         this.SkipSettings.defaultSkip = skip;
         return this;
     }
 
+    /**
+     * Skip is a singleton property, so you can call .skip as many times as you like and the result will always be the last one.
+     *
+     * @example
+     * $skip=10
+     *
+     * @param {number} skip
+     * @returns {Tso}
+     * @memberof Tso
+     */
     skip(skip: number): Tso {
         this.SkipSettings.skip = skip;
         return this;
     }
 
+    /**
+     * Skip settings are removed.
+     * (Reverts back what was set in setSkipDefault)
+     *
+     * @returns {Tso}
+     * @memberof Tso
+     */
     resetSkip(): Tso {
         this.SkipSettings.reset();
         return this;
     }
 
-    // select
+    /**
+     * Setting .select will override the default. Calling .resetSelect() will restore the default.
+     *
+     * @example
+     * query
+     *      .setSelectDefault(['CustomerId', 'CustomerName'])
+	 *      .select(['CustomerId', 'CustomerName', 'Address']);
+     *
+     * will result in
+     *
+     * $select=CustomerId,CustomerName,Address
+     *
+     * Then, resetting will restore the default:
+     * query.resetSelect();
+     *
+     * will result in
+     *
+     * $select=CustomerId,CustomerName
+     * @param {string[]} select
+     * @returns {Tso}
+     * @memberof Tso
+     */
     setSelectDefault(select: string[]): Tso {
         this.SelectSettings.defaultSelect = select;
         return this;
     }
 
+    /**
+     * Select is a singleton property, so you can call .select as many times as you like and the result will always be the last one.
+     * select takes in an array of property names.
+     *
+     * @example
+     * query.select(['Property1', 'Property2]);
+     *
+     * will result in
+     *
+     * $select=Property1,Property2
+     * @param {string[]} select
+     * @returns {Tso}
+     * @memberof Tso
+     */
     select(select: string[]): Tso {
         this.SelectSettings.select = select;
         return this;
     }
 
+    /**
+     * Select settings are removed.
+     * (Reverts back what was set in setSelectDefault)
+     *
+     * @returns {Tso}
+     * @memberof Tso
+     */
     resetSelect(): Tso {
         this.SelectSettings.reset();
         return this;
     }
 
-    // expand
+    /**
+     * Setting .expand() will override the default. Calling .resetExpand() will restore the default.
+     *
+     * @example
+     * $expand=Customer
+     *
+     * @param {string} expand
+     * @returns {Tso}
+     * @memberof Tso
+     */
     setExpandDefault(expand: string): Tso {
         this.ExpandSettings.defaultExpand = expand;
         return this;
     }
 
+    /**
+     * Expand is a singleton property, so you can call .expand as many times as you like and the result will always be the last one.
+     *
+     * @example
+     * $expand=Customer
+     *
+     * @param {string} expand
+     * @returns {Tso}
+     * @memberof Tso
+     */
     expand(expand: string): Tso {
         this.ExpandSettings.expand = expand;
         return this;
     }
 
+    /**
+     * The expand is removed
+     * (Reverts back what was set in setExpandDefault)
+     *
+     * @returns {Tso}
+     * @memberof Tso
+     */
     resetExpand(): Tso {
         this.ExpandSettings.reset();
         return this;
     }
 
-    // format
-
-
+    /**
+     * Calling .resetFormat() will remove any format settings or restore the default.
+     *
+     * @memberof Tso
+     */
     resetFormat(): void {
         this.FormatSettings.reset();
     }
@@ -321,7 +540,12 @@ export class Tso {
         return this;
     }
 
-    // Casts
+    /**
+     * To get the query in oData format, call toString off of your query object.
+     *
+     * @returns {string}
+     * @memberof Tso
+     */
     toString(): string {
         let url: any, components: any;
 
