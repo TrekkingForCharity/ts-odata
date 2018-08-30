@@ -1,6 +1,6 @@
 export class TopSettings {
-    top: number;
-    defaultTop: number;
+    top: number | null;
+    defaultTop: number | null;
 
     constructor() {
         this.top = null;
@@ -9,7 +9,7 @@ export class TopSettings {
 
     toString(): string {
         return '$top=' + (this.top !== null ? this.top : this.defaultTop);
-    };
+    }
 
     reset(): void {
         this.top = null;

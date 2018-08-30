@@ -81,7 +81,7 @@ export class FilterSettings {
         }
 
         return group;
-    };
+    }
 
     private loadFilterObj(currentFilter: any): any {
         if (currentFilter.clauses !== undefined) {
@@ -99,5 +99,5 @@ export class FilterSettings {
         }
 
         return newFilterClause;
-    };
+    }
 }

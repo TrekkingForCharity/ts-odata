@@ -4,4 +4,4 @@ npm-debug.log
 
 .idea/
 .vscode/
-lib/
+dist/

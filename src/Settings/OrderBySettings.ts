@@ -1,9 +1,9 @@
 export class OrderBySettings {
 
-    property: string;
-    order: string;
-    defaultProperty: string;
-    defaultOrder: string;
+    property: string | null;
+    order: string | null;
+    defaultProperty: string | null;
+    defaultOrder: string | null;
 
     constructor() {
         this.property = null;

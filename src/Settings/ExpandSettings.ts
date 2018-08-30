@@ -1,7 +1,7 @@
 export class ExpandSettings {
 
-    expand: string;
-    defaultExpand: string;
+    expand: string | null;
+    defaultExpand: string | null;
 
     constructor() {
         this.expand = null;

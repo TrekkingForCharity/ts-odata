@@ -3,7 +3,7 @@ import { FilterObj } from './FilterObj';
 export class PrecedenceGroup {
     clauses: any[];
 
-    constructor(filterClause: FilterClause = undefined) {
+    constructor(filterClause: FilterClause | undefined = undefined) {
         this.clauses = [];
 
         if (filterClause !== undefined) {

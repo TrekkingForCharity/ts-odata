@@ -1,6 +1,6 @@
 export class FormatSettings {
-    format: string;
-    defaultFormat: string;
+    format: string | null;
+    defaultFormat: string | null;
 
     constructor() {
         this.format = null;
